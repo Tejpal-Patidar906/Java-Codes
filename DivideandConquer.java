@@ -22,6 +22,7 @@ public class DivideandConquer {
           int i = si;  //iterator for left part
           int j = mid+1;  //iterator for right part
           int k = 0;  //iterator for temp arr
+
           while(i <= mid && j <= ei){
               if(arr[i] < arr[j]){
                   temp[k] = arr[i];
@@ -32,6 +33,7 @@ public class DivideandConquer {
               }
               k++;
           }
+
           //left part
           while(i <= mid){
                temp[k++] = arr[i++];
@@ -70,9 +72,10 @@ public class DivideandConquer {
          i++;
          int temp = pivot;
          arr[ei] = arr[i];
-         arr[i] = temp;
+         arr[i] = temp; 
        return i;
     }
+
 
      public static int search(int arr[] , int target , int si , int ei){
          if(si > ei){

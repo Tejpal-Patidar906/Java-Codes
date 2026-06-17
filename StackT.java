@@ -1,9 +1,7 @@
 import java.util.*;
 
-
-public class Practice {
-
-    public static void pushBottom(Stack<Integer> s, int data){
+public class StackT {
+     public static void pushBottom(Stack<Integer> s, int data){
          if(s.isEmpty()){
             s.push(data);
             return;
@@ -106,8 +104,74 @@ public class Practice {
          }
     }
 
-    public static void main(String[] args) { 
-        String str = "{(])}";
-        System.out.println(isValid(str));
+    public static boolean isDuplicate(String str){
+        Stack<Character> s = new Stack<>();
+        for(int i=0; i<str.length(); i++){
+            char ch = str.charAt(i);
+            if(ch == ')'){
+                int count = 0;
+                while(s.peek() != '('){
+                    s.pop();
+                    count++;
+                }
+                if(count < 1){
+                    return true;
+                }else{
+                    s.pop();
+                }
+            }else{
+                s.push(ch);
+            }
+        }
+        return false;
+    }
+
+    public static int maxArea(int arr[]){
+        int maxArea = 0;
+        int nsr[] = new int[arr.length];
+        int nsl[] = new int[arr.length];
+
+        // for next smaller left
+        Stack<Integer> s = new Stack<>();
+        for(int i=0; i<arr.length; i++){
+            while(!s.isEmpty() && arr[s.peek()] >= arr[i]){
+                s.pop();
+            }
+            if(s.isEmpty()){
+                nsl[i] = -1;
+            }else{
+                nsl[i] = s.peek();
+            }
+            s.push(i);
+        }
+
+        // for next smaller right
+        s = new Stack<>();
+        for(int i=arr.length-1; i>=0; i--){
+            while(!s.isEmpty() && arr[s.peek()] >= arr[i]){
+                s.pop();
+            }
+            if(s.isEmpty()){
+                nsr[i] = arr.length;
+            }else{
+                nsr[i] = s.peek();
+            }
+            s.push(i);
+        }
+
+        //current area
+        for(int i=0; i<arr.length; i++){
+            int h = arr[i];
+            int width = nsr[i] - nsl[i] -1;
+            int currArea = h * width;
+            maxArea = Math.max(maxArea, currArea);
+        }
+       return maxArea;
+    }
+
+
+    public static void main(String[] args) {
+        int arr[] = {2,1,5,6,2,3};
+        System.out.println(maxArea(arr));
     }
 }
